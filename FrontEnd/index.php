@@ -1,3 +1,7 @@
+<?php
+include "connexion.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +25,7 @@
                   <div class="col-md-6 col-lg-7 d-flex align-items-center">
                     <div class="card-body p-4 p-lg-5 text-black">
       
-                      <form>
+                      <form action="DashboardM.php">
       
                         <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
                           <img src="../Image/log.png" alt="logo" style="width: 100px;">
@@ -39,7 +43,7 @@
                           </div>
       
                         <div class="pt-1 mb-4 d-flex justify-content-end">
-                          <button class="btn btn-primary btn-lg btn-block" type="button">Login</button> 
+                          <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button> 
                         </div>
       
                         <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="Inscription.php"

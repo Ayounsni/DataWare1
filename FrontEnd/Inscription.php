@@ -1,3 +1,69 @@
+<?php
+include "connexion.php";
+// Définir les expressions régulières
+$pattern_nom_prenom = '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]{3,}$/u';
+$pattern_email = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+$pattern_mot_de_passe =  '/^.{8,}$/' ;
+
+// Initialiser les variables pour stocker les messages d'erreur
+$erreur_nom = $erreur_prenom = $erreur_email = $erreur_mot_de_passe = "";
+$nom = $prenom = $email = $mot_de_passe = "";
+
+
+
+// Vérifier si le formulaire a été soumis
+if (isset($_POST["submit"])) {
+    // Récupérer les valeurs du formulaire
+    $nom = $_POST["nom"];
+    $prenom = $_POST["prenom"];
+    $email = $_POST["email"];
+    $mot_de_passe = $_POST["password"];
+
+    // Valider le nom
+    if (!preg_match($pattern_nom_prenom, $nom)) {
+        $erreur_nom = "Veuillez entrer un nom valide (au moins 3 caractères)";
+        
+    }
+
+    // Valider le prénom
+    if (!preg_match($pattern_nom_prenom, $prenom)) {
+        $erreur_prenom = "Veuillez entrer un prénom valide (au moins 3 caractères)";
+    }
+
+    // Valider l'email
+    if (!preg_match($pattern_email, $email)) {
+        $erreur_email = "Veuillez entrer une adresse e-mail valide.";
+    }
+    $user = "SELECT * FROM users where email = '$email'";
+    $result = mysqli_query($conn, $user);
+    $useraa = mysqli_fetch_assoc($result);
+    if ($useraa) {
+      $erreur_email = "Email déjà utilisé";
+  }
+
+    // Valider le mot de passe
+    if (!preg_match($pattern_mot_de_passe, $mot_de_passe)) {
+        $erreur_mot_de_passe = "Veuillez entrer un mot de passe valide (au moins 8 caractères)";
+    }
+   
+    
+    
+
+     // Si aucune erreur, rediriger vers la page souhaitée
+     if (empty($erreur_nom) && empty($erreur_prenom) && empty($erreur_email) && empty($erreur_mot_de_passe)) {
+      // Remplacez "page-de-destination.php" par le chemin de votre page de destination
+      $requete = "INSERT INTO users (last_name, first_name, email, password) VALUES ('$nom', '$prenom', '$email', '$mot_de_passe')";
+      $query = mysqli_query($conn, $requete);
+      header("Location: validation.php");
+  }
+
+}
+
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,34 +87,34 @@
                   <div class="col-md-6 col-lg-7 d-flex align-items-center">
                     <div class="card-body p-4 p-lg-4 text-black">
       
-                      <form>
+                      <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     
       
                         <h5 class="fw-semibold mb-3 mt-3 pb-3" style="letter-spacing: 1px;">Create an account</h5>
 
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-                          <label class="text-secondary" for="floatingInput">First Name</label>
+                          <input type="text" name="prenom" class="form-control" id="floatingInput" value="<?php echo $prenom; ?>" placeholder="name" >
+                          <label class="text-secondary" for="floatingInput">Prénom</label>
+                          <span class="ms-2 text-danger "><?php echo $erreur_prenom;?></span>
                         </div>
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                          <label class="text-secondary" for="floatingInput">Last Name</label>
-                        </div>
+                          <input type="text" name="nom" class="form-control" id="floatingInput" value="<?php echo $nom; ?>" placeholder="last">
+                          <label class="text-secondary" for="floatingInput">Nom</label>
+                          <span class="ms-2 text-danger "><?php echo $erreur_nom;?></span>
+                        </div>    
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                          <label class="text-secondary" for="floatingInput">Phone Number</label>
-                        </div>      
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                            <input type="email" name="email" class="form-control" id="floatingInput" value="<?php echo $email; ?>"  placeholder="name@example.com">
                             <label class="text-secondary" for="floatingInput">Email address</label>
+                            <span class="ms-2 text-danger "><?php echo $erreur_email; ?></span>
                           </div>
                           <div class="form-floating mb-3 ">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                            <label class="text-secondary" for="floatingPassword">Password</label>
+                            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                            <label class="text-secondary" for="floatingPassword">Mot de passe</label>
+                            <span class="ms-2 text-danger "><?php echo $erreur_mot_de_passe; ?></span>
                           </div>
       
                         <div class="pt-1 mb-3 d-flex justify-content-end">
-                          <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button> 
+                          <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Register</button> 
                         </div>
       
                         <p class="mb-3 pb-lg-2" style="color: #393f81;">Have already an account? <a href="index.php"

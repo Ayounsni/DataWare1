@@ -25,8 +25,10 @@
             <li class="nav-item">
               <a class="nav-link" href="#!">Mes Projets</a>
             </li>
-            
-            <button type="button" class="btn btn-outline-danger  ms-3">Log Out</button>
+            <form action="index.php">
+            <button type="submit" class="btn btn-outline-danger  ms-3">Log Out</button>
+            </form>
+           
           </ul>
         </div>
       </div>
