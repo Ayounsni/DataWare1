@@ -1,5 +1,34 @@
 <?php
 include "connexion.php";
+$erreur="";
+if (isset($_POST["submit"])){
+  
+  $email=$_POST["email"];
+  $pass=$_POST["password"];
+  $select="SELECT * FROM users WHERE email= '$email' AND password= '$pass'";
+  $query = mysqli_query($conn,$select);
+  $row = mysqli_num_rows($query);
+  $fetch = mysqli_fetch_array($query);
+  if($row == 1){
+    $username=$fetch['First_name'];
+    session_start();
+    $_SESSION['username']=$username;
+    $_SESSION['autoriser']= "oui";
+    if($fetch["role"]== "user"){
+      header("Location: DashboardM.php");
+    }
+    elseif($fetch["role"]== "scrum_master"){
+      header("Location: MesProjets.php");
+    }
+    else
+     header("Location: validation.php");
+
+  } 
+  else
+   $erreur="L’adresse e-mail ou le mot de passe que vous avez saisi(e) n’est pas associé(e) à un compte. ";
+
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +54,7 @@ include "connexion.php";
                   <div class="col-md-6 col-lg-7 d-flex align-items-center">
                     <div class="card-body p-4 p-lg-5 text-black">
       
-                      <form action="DashboardM.php">
+                      <form method="post"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
       
                         <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
                           <img src="../Image/log.png" alt="logo" style="width: 100px;">
@@ -34,16 +63,17 @@ include "connexion.php";
                         <h5 class="fw-semibold mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
       
                         <div class="form-floating mb-4">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput" class="text-secondary">Email address</label>
+                            <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput" class="text-secondary">Email </label>
                           </div>
                           <div class="form-floating mb-4 ">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                            <label for="floatingPassword" class="text-secondary">Password</label>
+                            <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword" class="text-secondary">Mot de passe</label>
+                            <span class=" text-danger "><?php echo $erreur;?></span>
                           </div>
       
                         <div class="pt-1 mb-4 d-flex justify-content-end">
-                          <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button> 
+                          <button class="btn btn-primary btn-lg btn-block" name="submit" type="submit">Login</button> 
                         </div>
       
                         <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="Inscription.php"

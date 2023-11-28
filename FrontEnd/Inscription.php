@@ -36,8 +36,7 @@ if (isset($_POST["submit"])) {
     }
     $user = "SELECT * FROM users where email = '$email'";
     $result = mysqli_query($conn, $user);
-    $useraa = mysqli_fetch_assoc($result);
-    if ($useraa) {
+    if (mysqli_num_rows($result) > 0) {
       $erreur_email = "Email déjà utilisé";
   }
 
@@ -58,10 +57,6 @@ if (isset($_POST["submit"])) {
   }
 
 }
-
-
-
-
 
 ?>
 <!DOCTYPE html>

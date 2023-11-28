@@ -6,7 +6,6 @@ if($_SESSION['autoriser'] != "oui"){
   header("Location: index.php");
   exit();
   
-
 }
 
 ?>
@@ -37,7 +36,7 @@ if($_SESSION['autoriser'] != "oui"){
               <a class="nav-link" href="DashboardM.php">Projets</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="MembreP.php">Membres</a>
+              <a class="nav-link" href="#">Membres</a>
             </li>
             
             <a href="deconnexion.php" class="btn">deconnexion</a>
@@ -46,38 +45,36 @@ if($_SESSION['autoriser'] != "oui"){
       </div>
     </nav>
     <!-- Navbar -->
-    <h1 class="d-flex justify-content-center mt-5"> Gestion du Projets </h1>
+    <h1 class="d-flex justify-content-center mt-5"> Gestion du Membres </h1>
    
     <div class=" d-flex justify-content-center ">
       <div class="col-md-10 px-2 ">
-        <a href="ajouter.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Créer un nouveau projet</a>
         <table class="table table-primary mt-4 table-hover">
           <thead>
              <tr>
-              <th class=" align-middle"> Nom du projet </th>
-              <th class=" align-middle">Date début</th>
-              <th class=" align-middle">Date fin</th>
-              <th class=" align-middle">Status</th>
-              <th class=" align-middle">Modifier</th>  
-              <th class=" align-middle">Supprimer</th>    
+              <th class=" align-middle"> Nom </th>
+              <th class=" align-middle">Prénom</th>
+              <th class=" align-middle">Email</th>
+              <th class=" align-middle">Role</th> 
+              <th class=" align-middle">Modifier le role</th> 
              </tr>             
           </thead>
            <?php
-             $req = mysqli_query($conn,"SELECT * FROM projets");
+             $req = mysqli_query($conn,"SELECT * FROM users WHERE role IN ('scrum_master', 'user')");
              if(mysqli_num_rows($req) == 0){
               $message="Il n'y a pas encore de projets.";
               
              } else{
-              while($row=mysqli_fetch_array($req)){
+              while($row=mysqli_fetch_array($req) ){
                 ?>
            <tbody class="table-light ">
             <tr>
-              <td><?= $row['nom_projet'];?></td>
-              <td><?php echo $row['date_debut'];?></td>
-              <td><?php echo $row['date_fin'];?></td>
-              <td><?php echo $row['status_projet'];?></td>
-              <td><a href="modifier.php?id=<?=$row['id_projets']?>" class="ms-4"><i class="bi bi-pencil"></i></a></th>
-              <td><a href="supprimer.php?id=<?=$row['id_projets']?>" class="text-danger ms-4"><i class="bi bi-trash3-fill"></i></a></th>
+              <td><?= $row['Last_name'];?></td>
+              <td><?php echo $row['First_name'];?></td>
+              <td><?php echo $row['email'];?></td>
+              <td><?php echo $row['role'];?></td>
+              <td><a href="modifierRole.php?id=<?=$row['id_user']?>" class="ms-5"><i class="bi bi-pencil"></i></a></th>
+              
  
             </tr> 
           </tbody>
@@ -86,7 +83,10 @@ if($_SESSION['autoriser'] != "oui"){
               }
              }
              ?>
+
         </table>
+
+
         <p class="text-center fs-5 fw-bolder text-danger"><?php echo $message;?></p>
       </div>
     </div>
