@@ -39,8 +39,11 @@ if($_SESSION['autoriser'] != "oui"){
             <li class="nav-item">
               <a class="nav-link" href="MembreP.php">Membres</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="assigner.php">Assignation</a>
+            </li>
             
-            <a href="deconnexion.php" class="btn">deconnexion</a>
+            <a href="deconnexion.php" class="btn bg-danger p-2 rounded-3 text-light text-decoration-none "><i class="bi bi-box-arrow-left"></i> Deconnexion</a>
           </ul>
         </div>
       </div>
@@ -50,7 +53,10 @@ if($_SESSION['autoriser'] != "oui"){
    
     <div class=" d-flex justify-content-center ">
       <div class="col-md-10 px-2 ">
+        <div class="d-flex justify-content-start gap-2">
         <a href="ajouter.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Créer un nouveau projet</a>
+        <a href="assigner.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Affecter un Scrum Master à un Projet</a>
+        </div>
         <table class="table table-primary mt-4 table-hover">
           <thead>
              <tr>
@@ -58,12 +64,13 @@ if($_SESSION['autoriser'] != "oui"){
               <th class=" align-middle">Date début</th>
               <th class=" align-middle">Date fin</th>
               <th class=" align-middle">Status</th>
+              <th class=" align-middle">Scrum Master</th>
               <th class=" align-middle">Modifier</th>  
               <th class=" align-middle">Supprimer</th>    
              </tr>             
           </thead>
            <?php
-             $req = mysqli_query($conn,"SELECT * FROM projets");
+             $req = mysqli_query($conn,"SELECT * FROM projets LEFT JOIN users ON projets.scrum_master_id = users.id_user");
              if(mysqli_num_rows($req) == 0){
               $message="Il n'y a pas encore de projets.";
               
@@ -76,6 +83,7 @@ if($_SESSION['autoriser'] != "oui"){
               <td><?php echo $row['date_debut'];?></td>
               <td><?php echo $row['date_fin'];?></td>
               <td><?php echo $row['status_projet'];?></td>
+              <td><?php echo $row['Last_name'];?></td>
               <td><a href="modifier.php?id=<?=$row['id_projets']?>" class="ms-4"><i class="bi bi-pencil"></i></a></th>
               <td><a href="supprimer.php?id=<?=$row['id_projets']?>" class="text-danger ms-4"><i class="bi bi-trash3-fill"></i></a></th>
  

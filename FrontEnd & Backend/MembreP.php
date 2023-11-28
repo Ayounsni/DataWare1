@@ -38,7 +38,10 @@ if($_SESSION['autoriser'] != "oui"){
             <li class="nav-item">
               <a class="nav-link" href="#">Membres</a>
             </li>
-            
+            <li class="nav-item">
+              <a class="nav-link" href="assigner.php">Assignation</a>
+            </li>
+ 
             <a href="deconnexion.php" class="btn">deconnexion</a>
           </ul>
         </div>
@@ -49,6 +52,7 @@ if($_SESSION['autoriser'] != "oui"){
    
     <div class=" d-flex justify-content-center ">
       <div class="col-md-10 px-2 ">
+      <a href="assigner.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Affecter un Scrum Master à un Projet</a>
         <table class="table table-primary mt-4 table-hover">
           <thead>
              <tr>

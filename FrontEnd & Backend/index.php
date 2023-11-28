@@ -21,7 +21,7 @@ if (isset($_POST["submit"])){
       header("Location: MesProjets.php");
     }
     else
-     header("Location: validation.php");
+     header("Location: DashboardM.php");
 
   } 
   else

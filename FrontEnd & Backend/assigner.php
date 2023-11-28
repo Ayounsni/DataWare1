@@ -1,18 +1,17 @@
 <?php
 include "connexion.php";
-$id = $_GET['id'];
-$req= mysqli_query($conn, "SELECT * FROM users WHERE id_user= $id");
-$row=mysqli_fetch_array($req);
 
 if (isset($_POST["submit"])) {
+  // Récupérer les valeurs du formulaire
+  $selectedProject = $_POST["projet"];
+  $selectedScrumMaster = $_POST["scrumMaster"];
 
-    $role = $_POST["role"];
 
+    $requete = "UPDATE projets SET scrum_master_id = '$selectedScrumMaster' WHERE id_projets = '$selectedProject'";
+    $query = mysqli_query($conn, $requete);
+    header("Location: DashboardM.php");
+}
 
-      $requete = "UPDATE users SET role ='$role' WHERE id_user=$id";
-      $query = mysqli_query($conn, $requete);
-      header("Location: MembreP.php");
-  }
 
 
 
@@ -45,26 +44,28 @@ if (isset($_POST["submit"])) {
                       <form method="post" action="">
     
       
-                        <h5 class="fw-semibold mb-3 mt-3 pb-3" style="letter-spacing: 1px;">Modifier le role</h5>
-                        <div class="form-floating mb-3">
-                          <input type="text" name="nom" class="form-control" id="floatingInput" value="<?=$row['Last_name']?>" placeholder="name" readonly required >
-                          <label class="text-secondary" for="floatingInput">Nom</label>
-                          <span class="ms-2 text-danger "></span>
-                        </div>
-                        <div class="form-floating mb-3">
-                          <input type="text" name="prenom" class="form-control" id="floatingInput" value="<?=$row['First_name']?>" placeholder="last" readonly required>
-                          <label class="text-secondary" for="floatingInput">Prénom</label>
-                          <span class="ms-2 text-danger "></span>
-                        </div>   
+                        <h5 class="fw-semibold mb-3 mt-3 pb-3" style="letter-spacing: 1px;">Affecter un Scrum Master à un Projet</h5>
+                        <label for="cars" class="my-2 ">Sélectionnez le Projet :</label>
+                         <select class="form-select" aria-label="Default select example" name="projet" >
+                            <?php
 
-                        
-                        <label for="cars" class="mb-1">Role:</label>
-                         <select class="form-select" aria-label="Default select example" name="role" >
-                            <option value="user" selected>user</option>
-                            <option value="scrum_master">scrum_master</option>
+                               $queryProjects = mysqli_query($conn, "SELECT id_projets, nom_projet FROM projets WHERE scrum_master_id IS NULL;");
+                                while ($project = mysqli_fetch_assoc($queryProjects)) {
+                               echo "<option value='{$project['id_projets']}'>{$project['nom_projet']}</option>";
+                             }
+                             ?>
+
                          </select>
-                          
-      
+
+                        <label for="cars" class="my-2">Sélectionnez le Scrum Master :</label>
+                         <select class="form-select" aria-label="Default select example" name="scrumMaster" >
+                         <?php
+                            $queryScrumMasters = mysqli_query($conn, "SELECT id_user, Last_name FROM users WHERE role = 'scrum_master'");
+                            while ($scrumMaster = mysqli_fetch_assoc($queryScrumMasters)) {
+                           echo "<option value='{$scrumMaster['id_user']}'>{$scrumMaster['Last_name']}</option>";
+                          }
+                           ?>                       
+                         </select>                         
                         <div class="pt-1 mb-3 d-flex mt-2 justify-content-end">
                           <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Valider</button> 
                         </div>
