@@ -1,8 +1,8 @@
-#Projet DataWare - Gestion des Ressources Humaines
+# Projet DataWare - Gestion des Ressources Humaines
 #Description du Projet
 DataWare, une entreprise innovante cherchant à révolutionner sa gestion du personnel, a choisi votre équipe pour accomplir cette mission cruciale. Vous êtes mandatés pour concevoir une interface conviviale en utilisant PHP et SQL, répondant de manière optimale aux exigences de gestion des ressources humaines de DataWare.
 
-#Objectifs
+## Objectifs
 Diagrammes UML : Créer des diagrammes UML (use case, classe et séquence) pour représenter clairement les structures et relations du système.
 
 Requêtes SQL : Rédiger des requêtes SQL, incluant des sous-requêtes, pour interagir avec la base de données et réaliser des opérations avancées.
@@ -13,7 +13,7 @@ Interface Graphique : Concevoir une interface graphique représentant DataWare e
 
 Implémentation PHP : Implémenter le code PHP nécessaire pour intégrer les fonctionnalités requises dans l'interface.
 
-#User Stories
+## User Stories
 Inscription/Authentification : En tant qu'utilisateur, je souhaite m'inscrire et m'authentifier avec un login et un mot de passe pour accéder à la plateforme.
 
 Consultation de Projets et Équipes : En tant qu'utilisateur, je souhaite consulter mes projets et mes équipes.
@@ -28,7 +28,7 @@ Gestion des Membres de l'Équipe : En tant que Scrum Master, j'ai besoin d'ajout
 
 Affectation des Équipes : En tant que Scrum Master, je désire affecter des équipes à des projets spécifiques pour une répartition optimale des ressources.
 
-#Instructions pour l'Exécution
+## Instructions pour l'Exécution
 Clonez le dépôt du projet.
 Configurez la base de données en utilisant les scripts SQL fournis.
 Lancez l'application en ouvrant le fichier principal dans un navigateur web.
