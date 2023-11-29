@@ -10,15 +10,17 @@ if (isset($_POST["submit"])){
   $row = mysqli_num_rows($query);
   $fetch = mysqli_fetch_array($query);
   if($row == 1){
-    $username=$fetch['First_name'];
+    $username=$fetch['Last_name'];
+    $membre=$fetch['id_user'];
     session_start();
     $_SESSION['username']=$username;
+    $_SESSION['id']=$membre;
     $_SESSION['autoriser']= "oui";
     if($fetch["role"]== "user"){
       header("Location: DashboardM.php");
     }
     elseif($fetch["role"]== "scrum_master"){
-      header("Location: MesProjets.php");
+      header("Location: DashboardScrum.php");
     }
     else
      header("Location: DashboardM.php");

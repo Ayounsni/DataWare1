@@ -10,4 +10,3 @@ header("Location: DashboardM.php");
 
 
 ?>
-<h1>hh</h1>

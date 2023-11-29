@@ -9,6 +9,7 @@ if($_SESSION['autoriser'] != "oui"){
 
 }
 $user= $_SESSION['username'];
+$membre= $_SESSION['id'];
 
 ?>
 <!DOCTYPE html>
@@ -51,43 +52,39 @@ $user= $_SESSION['username'];
     </nav>
     <h5 class="mt-2 ms-2">Bienvenue <?php echo $user ; ?> !</h5>
     <!-- Navbar -->
-    <h1 class="d-flex justify-content-center mt-5"> Gestion du Projets </h1>
+    <h1 class="d-flex justify-content-center mt-5"> Gestion des Equipes </h1>
    
     <div class=" d-flex justify-content-center ">
       <div class="col-md-10 px-2 ">
         <div class="d-flex justify-content-start gap-2">
-        <a href="ajouter.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Créer un nouveau projet</a>
-        <a href="assigner.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Affecter un Scrum Master à un Projet</a>
+        <a href="ajouterequi.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Créer une nouveau équipe</a>
+        <!-- <a href="assigner.php" class=" bg-primary p-2 rounded-3 text-light text-decoration-none btn mt-4"><i class="bi bi-bookmark-plus-fill"></i> Affecter un Scrum Master à un Projet</a> -->
         </div>
         <table class="table table-primary mt-4 table-hover">
           <thead>
              <tr>
-              <th class=" align-middle"> Nom du projet </th>
-              <th class=" align-middle">Date début</th>
-              <th class=" align-middle">Date fin</th>
-              <th class=" align-middle">Status</th>
+              <th class=" align-middle"> Nom d'équipe </th>
+              <th class=" align-middle">Date de creation</th>
               <th class=" align-middle">Scrum Master</th>
               <th class=" align-middle">Modifier</th>  
               <th class=" align-middle">Supprimer</th>    
              </tr>             
           </thead>
            <?php
-             $req = mysqli_query($conn,"SELECT * FROM projets LEFT JOIN users ON projets.scrum_master_id = users.id_user");
+             $req = mysqli_query($conn,"SELECT * FROM equipes LEFT JOIN users ON equipes.scrum_master_id = users.id_user");
              if(mysqli_num_rows($req) == 0){
-              $message="Il n'y a pas encore de projets.";
+              $message="Il n'y a pas encore d'équipe.";
               
              } else{
               while($row=mysqli_fetch_array($req)){
                 ?>
            <tbody class="table-light ">
             <tr>
-              <td><?= $row['nom_projet'];?></td>
-              <td><?php echo $row['date_debut'];?></td>
-              <td><?php echo $row['date_fin'];?></td>
-              <td><?php echo $row['status_projet'];?></td>
+              <td><?= $row['Name_equipe'];?></td>
+              <td><?php echo $row['date_creation'];?></td>
               <td><?php echo $row['Last_name'];?></td>
-              <td><a href="modifier.php?id=<?=$row['id_projets']?>" class="ms-4"><i class="bi bi-pencil"></i></a></th>
-              <td><a href="supprimer.php?id=<?=$row['id_projets']?>" class="text-danger ms-4"><i class="bi bi-trash3-fill"></i></a></th>
+              <td><a href="modifier.php?id=<?=$row['id_equipe']?>" class="ms-4"><i class="bi bi-pencil"></i></a></th>
+              <td><a href="supprimerequi.php?id=<?=$row['id_equipe']?>" class="text-danger ms-4"><i class="bi bi-trash3-fill"></i></a></th>
  
             </tr> 
           </tbody>
