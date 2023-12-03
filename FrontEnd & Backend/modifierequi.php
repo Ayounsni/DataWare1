@@ -1,21 +1,19 @@
 <?php
 include "connexion.php";
-
-session_start();
-$membre= $_SESSION['id'];
+$id = $_GET['id'];
+$req= mysqli_query($conn, "SELECT * FROM equipes WHERE id_equipe= $id");
+$row=mysqli_fetch_array($req);
 
 if (isset($_POST["submit"])) {
     // Récupérer les valeurs du formulaire
     $nom = $_POST["name"];
     $dated = $_POST["dated"];
- 
 
 
-    $requete = "INSERT INTO equipes (Name_equipe, date_creation, scrum_master_id) VALUES ('$nom', '$dated', '$membre')";
+      $requete = "UPDATE equipes SET Name_equipe='$nom', date_creation= '$dated' WHERE id_equipe=$id";
       $query = mysqli_query($conn, $requete);
       header("Location: DashboardScrum.php");
   }
- 
 
 ?>
 <!DOCTYPE html>
@@ -48,12 +46,12 @@ if (isset($_POST["submit"])) {
                         <h5 class="fw-semibold mb-3 mt-3 pb-3" style="letter-spacing: 1px;">Créer une nouveau équipe</h5>
 
                         <div class="form-floating mb-3">
-                          <input type="text" name="name" class="form-control" id="floatingInput" value="" placeholder="name" required >
+                          <input type="text" name="name" class="form-control" id="floatingInput" value="<?=$row['Name_equipe']?>" placeholder="name" required >
                           <label class="text-secondary" for="floatingInput">Nom d'équipe</label>
                           <span class="ms-2 text-danger "></span>
                         </div>
                         <div class="form-floating mb-3">
-                          <input type="date" name="dated" class="form-control" id="floatingInput" value="" placeholder="last" required>
+                          <input type="date" name="dated" class="form-control" id="floatingInput" value="<?=$row['date_creation']?>" placeholder="last" required>
                           <label class="text-secondary" for="floatingInput">Date de creation</label>
                           <span class="ms-2 text-danger "></span>
                         </div>   

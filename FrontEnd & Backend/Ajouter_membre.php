@@ -1,21 +1,21 @@
 <?php
 include "connexion.php";
 
-session_start();
-$membre= $_SESSION['id'];
-
+$id = $_GET['equipe_id'];
 if (isset($_POST["submit"])) {
-    // Récupérer les valeurs du formulaire
-    $nom = $_POST["name"];
-    $dated = $_POST["dated"];
- 
+  // Récupérer les valeurs du formulaire
+  $selectedMembre = $_POST["membre"];
 
 
-    $requete = "INSERT INTO equipes (Name_equipe, date_creation, scrum_master_id) VALUES ('$nom', '$dated', '$membre')";
-      $query = mysqli_query($conn, $requete);
-      header("Location: DashboardScrum.php");
-  }
- 
+
+    $requete = "UPDATE users SET id_equip  = '$id' WHERE id_user = '$selectedMembre'";
+    $query = mysqli_query($conn, $requete);
+    header("Location: Gestionequi.php");
+}
+
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -34,7 +34,7 @@ if (isset($_POST["submit"])) {
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-xl-10">
               <div class="card" style="border-radius: 1rem;">
-            <div class="d-flex justify-content-end px-3 py-1 "><a href="DashboardScrum.php" class="text-danger fs-5"><i class="bi bi-x-lg"></i></a></div>
+            <div class="d-flex justify-content-end px-3 py-1 "><a href="Gestionequi.php" class="text-danger fs-5"><i class="bi bi-x-lg"></i></a></div>
                 <div class="row g-0">
                   <div class="col-md-6 col-lg-5 d-none px-2 d-md-flex align-items-center">
                     <img src="../Image/ajouter.jpg" alt="login form" class="img-fluid"  />
@@ -45,19 +45,19 @@ if (isset($_POST["submit"])) {
                       <form method="post" action="">
     
       
-                        <h5 class="fw-semibold mb-3 mt-3 pb-3" style="letter-spacing: 1px;">Créer une nouveau équipe</h5>
+                        <h5 class="fw-semibold mb-3 mt-3 pb-3" style="letter-spacing: 1px;">Ajouter un membre </h5>
+                        <label for="cars" class="my-2 ">Sélectionnez un membre :</label>
+                         <select class="form-select" aria-label="Default select example" name="membre" >
+                            <?php
 
-                        <div class="form-floating mb-3">
-                          <input type="text" name="name" class="form-control" id="floatingInput" value="" placeholder="name" required >
-                          <label class="text-secondary" for="floatingInput">Nom d'équipe</label>
-                          <span class="ms-2 text-danger "></span>
-                        </div>
-                        <div class="form-floating mb-3">
-                          <input type="date" name="dated" class="form-control" id="floatingInput" value="" placeholder="last" required>
-                          <label class="text-secondary" for="floatingInput">Date de creation</label>
-                          <span class="ms-2 text-danger "></span>
-                        </div>   
-                          
+                               $queryMembre = mysqli_query($conn, "SELECT id_user , First_name , Last_name FROM users WHERE id_equip IS NULL AND role ='user';");
+                                while ($membre = mysqli_fetch_assoc($queryMembre)) {
+                                  echo "<option value='{$membre['id_user']}'>{$membre['First_name']} {$membre['Last_name']}</option>";
+                             }
+                             ?>
+
+                         </select>
+                     
                         <div class="pt-1 mb-3 d-flex mt-2 justify-content-end">
                           <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Valider</button> 
                         </div>
